@@ -34,10 +34,7 @@ public class UserServiceImp implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getUsername().equals("admin")) {
             user.getRoles().add(new Role("ROLE_ADMIN"));
-            for (Role name:user.getRoles()){
-                System.out.println(name.getName());
-            }
-        }else user.getRoles().add(new Role("ROLE_USER"));
+        } else user.getRoles().add(new Role("ROLE_USER"));
         userRepository.save(user);
 
     }
@@ -59,25 +56,11 @@ public class UserServiceImp implements UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    
-//    @Override
-//    @Transactional
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return findByUsername(username);
-//    }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-
-
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.getAuthorities());
-
-        System.out.println(userDetails.getUsername() + " " + userDetails.getPassword() + " !!!! +   "
-                +getMyAuthorities(user.getRoles()));
-
 
         if (user == null) {
             throw new UsernameNotFoundException(username);
