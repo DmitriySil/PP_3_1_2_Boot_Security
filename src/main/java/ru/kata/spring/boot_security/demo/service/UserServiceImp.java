@@ -64,6 +64,7 @@ public class UserServiceImp implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
+
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 getMyAuthorities(user.getRoles()));
     }
